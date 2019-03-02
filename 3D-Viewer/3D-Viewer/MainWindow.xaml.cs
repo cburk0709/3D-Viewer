@@ -24,9 +24,6 @@ namespace WpfApp5
     /// </summary>
     public partial class MainWindow : Window
     {
-        AxisAngleRotation3D yAxis = new AxisAngleRotation3D();
-        AxisAngleRotation3D xAxis = new AxisAngleRotation3D();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -94,16 +91,17 @@ namespace WpfApp5
             DiffuseMaterial myMaterial = new DiffuseMaterial(myBrush);
             myGeoModel.Material = myMaterial;
 
+            RotateTransform3D myYRotation = new RotateTransform3D();
+            AxisAngleRotation3D myYAxis = new AxisAngleRotation3D();
+            myYAxis.Axis = new Vector3D(0, 3, 0);
+            myYAxis.Angle = YSlider.Value;
+            myYRotation.Rotation = myYAxis;
 
-
-            yAxis.Axis = new Vector3D(0, 3, 0);
-            yAxis.Angle = 45;
-            RotateTransform3D yRotation = new RotateTransform3D(yAxis);
-
-
-            xAxis.Axis = new Vector3D(3, 0, 0);
-            xAxis.Angle = 45;
-            RotateTransform3D xRotation = new RotateTransform3D(xAxis);
+            RotateTransform3D myXRotation = new RotateTransform3D();
+            AxisAngleRotation3D myXAxis = new AxisAngleRotation3D();
+            myXAxis.Axis = new Vector3D(3, 0, 0);
+            myXAxis.Angle = XSlider.Value;
+            myXRotation.Rotation = myXAxis;
 
             //Setting fields for the viewport itself and adding the viewport to the canvas
             myModel3D.Children.Add(myGeoModel);
@@ -114,23 +112,6 @@ namespace WpfApp5
             myViewport.VerticalAlignment = VerticalAlignment.Center;
             myViewport.HorizontalAlignment = HorizontalAlignment.Right;
             this.myCanvas.Children.Add(myViewport);
-        }
-
-        //Events for when the value of the sliders has changed
-        private void XSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            updateRotation();
-        }
-        private void YSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            updateRotation();
-        }
-
-        //Method executed by the slider events that actually changes the value of the axes' rotations
-        private void updateRotation()
-        {
-            xAxis.Angle = XSlider.Value;
-            yAxis.Angle = YSlider.Value;
         }
     }
 }

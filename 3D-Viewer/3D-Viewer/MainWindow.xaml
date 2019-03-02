@@ -14,6 +14,8 @@
         <TextBox x:Name="xAngle" Text="{Binding ElementName=XSlider, Path=Value}" Margin="0,412,0,28"/>
         <TextBox x:Name="yAngle" Text="{Binding ElementName=YSlider, Path=Value}" Margin="0,441,0,0"/>
         <!--Canvas provides location for viewport created in code-behind-->
-        <Canvas x:Name="myCanvas" Margin="70,73,70,62" Background="WhiteSmoke"/>
+        <Canvas x:Name="myCanvas" Margin="70,73,70,62" Background="WhiteSmoke">
+            
+        </Canvas>
     </Grid>
 </Window>
