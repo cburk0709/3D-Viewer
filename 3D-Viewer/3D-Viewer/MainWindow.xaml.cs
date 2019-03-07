@@ -24,6 +24,11 @@ namespace WpfApp5
     /// </summary>
     public partial class MainWindow : Window
     {
+        RotateTransform3D myYRotation = new RotateTransform3D();
+        AxisAngleRotation3D myYAxis = new AxisAngleRotation3D();
+        RotateTransform3D myXRotation = new RotateTransform3D();
+        AxisAngleRotation3D myXAxis = new AxisAngleRotation3D();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -61,9 +66,11 @@ namespace WpfApp5
             myPositionCollection.Add(new Point3D(-0.5, -0.5, 0.5));
             myPositionCollection.Add(new Point3D(0.5, -0.5, 0.5));
             myPositionCollection.Add(new Point3D(0.5, 0.5, 0.5));
-            myPositionCollection.Add(new Point3D(0.5, 0.5, 0.5));
+            myPositionCollection.Add(new Point3D(0.5, 0.5, -0.5));
             myPositionCollection.Add(new Point3D(-0.5, 0.5, 0.5));
-            myPositionCollection.Add(new Point3D(-0.5, -0.5, 0.5));
+            myPositionCollection.Add(new Point3D(-0.5, -0.5, -0.5));
+            myPositionCollection.Add(new Point3D(0.5, -0.5, -0.5));
+            myPositionCollection.Add(new Point3D(-0.5, 0.5, -0.5));
             myMesh.Positions = myPositionCollection;
 
             PointCollection myTextureCoordinatesCollection = new PointCollection();
@@ -81,7 +88,7 @@ namespace WpfApp5
             myTriangleIndicesCollection.Add(2);
             myTriangleIndicesCollection.Add(3);
             myTriangleIndicesCollection.Add(4);
-            myTriangleIndicesCollection.Add(5);
+            myTriangleIndicesCollection.Add(5);            
             myMesh.TriangleIndices = myTriangleIndicesCollection;
 
             myGeoModel.Geometry = myMesh;
@@ -91,16 +98,11 @@ namespace WpfApp5
             DiffuseMaterial myMaterial = new DiffuseMaterial(myBrush);
             myGeoModel.Material = myMaterial;
 
-            RotateTransform3D myYRotation = new RotateTransform3D();
-            AxisAngleRotation3D myYAxis = new AxisAngleRotation3D();
-            myYAxis.Axis = new Vector3D(0, 3, 0);
-            myYAxis.Angle = YSlider.Value;
+            
+            myYAxis.Axis = new Vector3D(0, 0, 3);
             myYRotation.Rotation = myYAxis;
-
-            RotateTransform3D myXRotation = new RotateTransform3D();
-            AxisAngleRotation3D myXAxis = new AxisAngleRotation3D();
+                       
             myXAxis.Axis = new Vector3D(3, 0, 0);
-            myXAxis.Angle = XSlider.Value;
             myXRotation.Rotation = myXAxis;
 
             //Setting fields for the viewport itself and adding the viewport to the canvas
@@ -112,6 +114,22 @@ namespace WpfApp5
             myViewport.VerticalAlignment = VerticalAlignment.Center;
             myViewport.HorizontalAlignment = HorizontalAlignment.Right;
             this.myCanvas.Children.Add(myViewport);
+        }
+
+        private void XSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            updateAngles();
+        }
+
+        private void YSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            updateAngles();
+        }
+
+        private void updateAngles()
+        {
+            myXAxis.Angle = XSlider.Value;
+            myYAxis.Angle = YSlider.Value;
         }
     }
 }
