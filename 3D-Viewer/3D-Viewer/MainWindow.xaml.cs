@@ -24,19 +24,21 @@ namespace WpfApp5
     /// </summary>
     public partial class MainWindow : Window
     {
+        
+
+        AxisAngleRotation3D myYAxis = new AxisAngleRotation3D(new Vector3D(0, 0, 3), 1);
         RotateTransform3D myYRotation = new RotateTransform3D();
-        AxisAngleRotation3D myYAxis = new AxisAngleRotation3D();
+        
+        AxisAngleRotation3D myXAxis = new AxisAngleRotation3D(new Vector3D(3, 0, 0), 1);
         RotateTransform3D myXRotation = new RotateTransform3D();
-        AxisAngleRotation3D myXAxis = new AxisAngleRotation3D();
+        
 
         public MainWindow()
         {
-            InitializeComponent();
-
-            Viewport3D myViewport = new Viewport3D();
+            InitializeComponent();       
+            
             Model3DGroup myModel3D = new Model3DGroup();
             GeometryModel3D myGeoModel = new GeometryModel3D();
-            ModelVisual3D myModelVisual = new ModelVisual3D();
 
             //Constructs and assigns the camera for the scene
             PerspectiveCamera myCam = new PerspectiveCamera();
@@ -98,38 +100,34 @@ namespace WpfApp5
             DiffuseMaterial myMaterial = new DiffuseMaterial(myBrush);
             myGeoModel.Material = myMaterial;
 
-            
-            myYAxis.Axis = new Vector3D(0, 0, 3);
-            myYRotation.Rotation = myYAxis;
                        
-            myXAxis.Axis = new Vector3D(3, 0, 0);
+            myYRotation.Rotation = myYAxis;          
+                       
             myXRotation.Rotation = myXAxis;
 
             //Setting fields for the viewport itself and adding the viewport to the canvas
             myModel3D.Children.Add(myGeoModel);
             myModelVisual.Content = myModel3D;
-            myViewport.Children.Add(myModelVisual);
             myViewport.Height = 200;
             myViewport.Width = 200;
             myViewport.VerticalAlignment = VerticalAlignment.Center;
             myViewport.HorizontalAlignment = HorizontalAlignment.Right;
-            this.myCanvas.Children.Add(myViewport);
         }
-
+       
         private void XSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            updateAngles();
+            UpdateAngles();
         }
 
         private void YSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            updateAngles();
+            UpdateAngles();
         }
 
-        private void updateAngles()
+        private void UpdateAngles()
         {
             myXAxis.Angle = XSlider.Value;
             myYAxis.Angle = YSlider.Value;
         }
-    }
+    }  
 }
